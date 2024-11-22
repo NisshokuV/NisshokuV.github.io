@@ -1,0 +1,11 @@
+body
+{
+	background-color: darkgrey;
+	font-family: sans-serif;
+}
+input
+{
+	border: none;
+	border-radius: 10px;
+	margin-top: 1em;
+}

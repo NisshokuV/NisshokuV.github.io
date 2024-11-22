@@ -3,3 +3,12 @@ body
 	background-color: darkgrey;
 	font-family: sans-serif;
 }
+img 
+{
+	width: 20em;
+}
+a
+{
+	text-decoration: none;
+	color: green;
+}
