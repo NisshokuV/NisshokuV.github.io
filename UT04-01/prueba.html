@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Mi sitio Manuel Prosperi</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+    <h1>Este es mi formulario</h1>
+    <h2>Datos Usuario</h2>
+    <hr />
+    <form>
+        <div class="form-group">
+            <label for="username">Nombre de Usuario</label>
+            <input type="text" name="username" id="username" placeholder="UserName">
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" id="password" placeholder="Introduce Contraseña">
+        </div>
+        <div class="form-group">
+            <input type="checkbox" name="recordarPassword" id="recordar">
+            <label for="recordarPassword">Recordar Contraseña</label>
+        </div>
+
+    </form>
+    <h2>Datos Personales</h2>
+    <hr />
+    <form>
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" id="name" placeholder="Nombre">
+        </div>
+        <div class="form-group">
+            <label for="surname">Apellidos</label>
+            <input type="text" name="surname" id="surname" placeholder="Apellidos">
+        </div>
+
+        <div class="form-group">
+            <label for="telephone">Teléfono</label>
+            <input type="tel" name="telephone" id="telephone" placeholder="Ejem: (+34)922167245">
+        </div>
+        <div class="form-group">
+            <label for="postCode">Código Postal</label>
+            <input type="number" name="postCode" id="postCode" placeholder="38XXX">
+        </div>
+        <div class="top-form-group">
+        </div>
+        <div class="form-group">
+            <label for="tipoDocumento">DNI/NIE</label>
+            <select id="tipoDocumento" name="tipoDocumento" required>
+                <option value="">---</option>
+                <option value="DNI">DNI</option>
+                <option value="NIE">NIE</option>
+            </select>
+            <input type="text" id="documento" name="documento" placeholder="DNI/NIE" disabled required>
+        </div>
+        <div class="form-group">
+            <label for="tipoEmpresa">Crear cuenta como:</label>
+            <input type="radio" name="tipoEmpresa" id="tipoEmpresa1" value="Particular">Particular</input>
+            <input type="radio" name="tipoEmpresa" id="tipoEmpresa2" value="Empresa">Empresa</input>
+        </div>
+        <!---<div class="top-form-group">
+				<div class="form-group__Aficiones">
+					<label for="aficiones">Elige tus aficiones:</label><br/>
+					<input type="checkbox" name="aficiones" value="Música">
+					<input type="checkbox" name="aficiones" value="Deporte">
+					<input type="checkbox" name="aficiones" value="Lectura">
+					<input type="checkbox" name="aficiones" value="Videojuegos">
+					<input type="checkbox" name="aficiones" value="Artes">
+					<input type="checkbox" name="aficiones" value="Manualidades">
+				</div>
+			</div>-->
+    </form>
+    <h3><a href="../index.html">Volver</a></h3>
+    <script src="./js.js"></script>
+</body>
+
+</html>

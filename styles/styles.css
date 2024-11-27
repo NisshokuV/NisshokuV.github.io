@@ -1,14 +1,19 @@
 body
 {
-	background-color: darkgrey;
-	font-family: sans-serif;
-}
-img 
-{
-	width: 20em;
+	background-color: #132130; 
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	margin-left: 2em;
+	padding: 0;
+	color: #fff;
 }
 a
 {
 	text-decoration: none;
-	color: green;
+	color: orange;
+}
+input
+{
+	border-radius: 3px;
+	border: none;
+	margin-top: 1em;
 }
