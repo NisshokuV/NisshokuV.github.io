@@ -95,3 +95,8 @@ input[disabled]
 .submit-button:hover {
     background-color: #0056b3;
 }
+#error-dni-nie
+{
+    color: red; 
+    display: none;
+}
