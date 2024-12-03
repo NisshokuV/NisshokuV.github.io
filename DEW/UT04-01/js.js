@@ -88,3 +88,106 @@ formId.addEventListener('submit', function (event) {
         errorElement.style.display = 'none';
     }
 });
+
+// Módulo principal
+document.addEventListener('DOMContentLoaded', () => {
+    const formulario = document.getElementById('formulario');
+    const mensajesSistema = document.getElementById('mensajesSistema');
+    const aficionesCheckboxes = formulario.querySelectorAll('input[type="checkbox"]');
+    const tipoDocumento = formulario.querySelector('#tipoDocumento');
+    const dniNie = formulario.querySelector('#dniNie');
+    const mostrarContrasena = formulario.querySelector('#mostrarContrasena');
+    const contrasena = formulario.querySelector('#contrasena');
+  
+    // Mostrar contraseña
+    mostrarContrasena.addEventListener('change', () => {
+      contrasena.type = mostrarContrasena.checked ? 'text' : 'password';
+    });
+  
+    // Validar formulario
+    formulario.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let valido = true;
+  
+      // Validar aficiones
+      const aficionesSeleccionadas = Array.from(aficionesCheckboxes)
+        .filter((checkbox) => checkbox.checked)
+        .map((checkbox) => checkbox.value);
+      if (aficionesSeleccionadas.length < 2) {
+        valido = false;
+        marcarInvalido(aficionesCheckboxes[0], 'Debe seleccionar al menos 2 aficiones.');
+      } else {
+        marcarValido(aficionesCheckboxes[0]);
+      }
+  
+      // Validar DNI/NIE según tipo de documento
+      if (tipoDocumento.value === 'DNI' && !validarDNI(dniNie.value)) {
+        valido = false;
+        marcarInvalido(dniNie, 'DNI no válido.');
+      } else if (tipoDocumento.value === 'NIE' && !validarNIE(dniNie.value)) {
+        valido = false;
+        marcarInvalido(dniNie, 'NIE no válido.');
+      } else {
+        marcarValido(dniNie);
+      }
+  
+      // Mostrar mensajes de sistema
+      actualizarMensajes();
+  
+      if (valido) {
+        formulario.submit();
+      }
+    });
+  
+    // Función para validar DNI
+    const validarDNI = (dni) => {
+      const dniRegex = /^\d{8}[A-Z]$/;
+      if (!dniRegex.test(dni)) return false;
+      const letras = 'TRWAGMYFPDXBNJZSQVHLCKE';
+      const numero = parseInt(dni.slice(0, 8), 10);
+      const letra = dni.slice(-1);
+      return letra === letras[numero % 23];
+    };
+  
+    // Función para validar NIE
+    const validarNIE = (nie) => {
+      const nieRegex = /^[XYZ]\d{7}[A-Z]$/;
+      if (!nieRegex.test(nie)) return false;
+      const letras = 'TRWAGMYFPDXBNJZSQVHLCKE';
+      const numero = nie
+        .replace('X', '0')
+        .replace('Y', '1')
+        .replace('Z', '2')
+        .slice(0, -1);
+      const letra = nie.slice(-1);
+      return letra === letras[parseInt(numero, 10) % 23];
+    };
+  
+    // Marcar como inválido
+    const marcarInvalido = (elemento, mensaje) => {
+      elemento.setCustomValidity(mensaje);
+      elemento.reportValidity();
+    };
+  
+    // Marcar como válido
+    const marcarValido = (elemento) => {
+      elemento.setCustomValidity('');
+    };
+  
+    // Actualizar mensajes de sistema
+    const actualizarMensajes = () => {
+      mensajesSistema.innerHTML = ''; // Limpiar mensajes
+      const elementos = formulario.elements;
+  
+      Array.from(elementos).forEach((elemento) => {
+        const mensaje = elemento.validationMessage;
+        const nombre = elemento.name || elemento.id;
+        if (mensaje) {
+          const div = document.createElement('div');
+          div.textContent = `${nombre}: ${mensaje}`;
+          mensajesSistema.appendChild(div);
+        }
+      });
+    };
+  });
+  

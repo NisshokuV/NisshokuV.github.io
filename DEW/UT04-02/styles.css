@@ -104,3 +104,8 @@ input[disabled]
 {
     color: red;
 }
+#descripcion-count,#titulo-count
+{
+    justify-self: self-end;
+    display: flex;
+}
