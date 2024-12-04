@@ -1,12 +1,13 @@
+import { validateForm, updateValidationMessages } from './validation.js';
 const DOM = 
 {
      tipoDocumento : document.getElementById('tipoDocumento'),
      inputDocumento : document.getElementById('documento'),
-     inputPassword : document.getElementById('password'),
-     showPass : document.getElementById('show-password'),
+     inputPassword : document.getElementById('Contrasena'),
+     showPass : document.getElementById('showPassword'),
      tituloInput : document.getElementById('titulo'),
      descripcionInput : document.getElementById('descripcion'),
-     formId : document.getElementById('formId'),
+     formId : document.getElementById('registrationForm'),
      anioNacimiento: document.getElementById('anio-nacimiento'),
 }
 const minYear = 1920;
@@ -101,4 +102,26 @@ DOM.formId.addEventListener('submit', function (event) {
         // Ocultar mensaje de error si es válido
         errorElement.style.display = 'none';
     }
+});
+
+// script.js
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('registrationForm');
+  
+  // Validación del formulario
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (validateForm(form)) {
+      alert('Formulario enviado correctamente');
+      form.reset();
+    } else {
+      alert('Por favor, corrige los errores.');
+    }
+  });
+
+  // Actualización de mensajes de validación
+  form.addEventListener('input', () => {
+    updateValidationMessages(form);
+  });
 });
