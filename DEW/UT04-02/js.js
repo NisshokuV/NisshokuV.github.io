@@ -1,59 +1,106 @@
 const DOM = 
 {
-     tipoDocumento : document.getElementById('tipoDocumento'),
-     inputDocumento : document.getElementById('documento'),
-     inputPassword : document.getElementById('password'),
-     showPass : document.getElementById('show-password'),
-     tituloInput : document.getElementById('titulo'),
-     descripcionInput : document.getElementById('descripcion'),
-     formId : document.getElementById('formId'),
-     anioNacimiento: document.getElementById('anio-nacimiento'),
-}
-const minYear = 1920;
-const maxYear = 2010;
+    tipoDocumento: document.getElementById("TipoDocumento"),
+    dniNie: document.getElementById("DniNie"),
+    inputPassword: document.getElementById("password"),
+    showPass: document.getElementById("show-password"),
+    tituloInput: document.getElementById("titulo"),
+    descripcionInput: document.getElementById("descripcion"),
+    form: document.getElementById("userForm"),
+    anioNacimiento: document.getElementById("AnioNacimiento"),
+    messagesList: document.getElementById("messagesList"),
+    aficiones: document.querySelectorAll("input[name='Aficiones']"),
+    errorAficiones: document.getElementById("error-aficiones"),
+};
 
-(function () {
-    for(let i = maxYear; i >= minYear; i--)
-        {
-            let opt = document.createElement('option');
-            opt.value = i;
-            opt.textContent = i;
-            DOM.anioNacimiento.append(opt);
-        }
-    })();
-// Habilitar el campo del documento al seleccionar un tipo
-tipoDocumento.addEventListener('change', () => 
+document.addEventListener("DOMContentLoaded", () => 
 {
-    if (tipoDocumento.value) 
+    // Rellenar años de nacimiento
+    for (let i = 2010; i >= 1920; i--) 
     {
-        DOM.inputDocumento.disabled = false; // Habilita el input
-        DOM.inputDocumento.focus(); // Opcional: pone el cursor automáticamente
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = i;
+        DOM.anioNacimiento.appendChild(option);
+    }
+
+    // Habilitar/Deshabilitar campo DNI/NIE según selección
+    DOM.tipoDocumento.addEventListener("change", () => 
+    {
+        DOM.dniNie.disabled = DOM.tipoDocumento.value === "";
+    });
+
+    // Mostrar/Ocultar contraseña
+    document.getElementById("mostrarContrasena").addEventListener("change", (e) => 
+    {
+        const passwordField = document.getElementById("Contrasena");
+        passwordField.type = e.target.checked ? "text" : "password";
+    });
+
+    // Validar aficiones al cambiar los checkboxes
+    DOM.aficiones.forEach((checkbox) => 
+    {
+        checkbox.addEventListener("change", validateAficiones);
+    });
+
+    // Validar al enviar el formulario
+    DOM.form.addEventListener("submit", (event) => 
+    {
+        const isAficionesValid = validateAficiones();
+        const isDniNieValid = validateDniNie();
+        if (!isAficionesValid || !isDniNieValid) 
+            {
+            event.preventDefault(); // Detener envío si no pasa alguna validación
+        }
+    });
+
+    // Validar formulario en tiempo real
+    DOM.form.addEventListener("input", () => 
+    {
+        DOM.messagesList.innerHTML = "";
+        [...DOM.form.elements].forEach((element) => 
+            {
+            if (element.validationMessage) 
+            {
+                const li = document.createElement("li");
+                li.textContent = `${element.name || element.id}: ${element.validationMessage}`;
+                DOM.messagesList.appendChild(li);
+            }
+        });
+    });
+});
+
+// Validación de aficiones
+function validateAficiones() 
+{
+    const selectedAficiones = [...DOM.aficiones].filter((checkbox) => checkbox.checked);
+    if (selectedAficiones.length < 2) 
+    {
+        DOM.errorAficiones.style.display = "block";
+        return false;
     } else 
     {
-        DOM.inputDocumento.disabled = true; // Deshabilita el input si no hay selección
-        DOM.inputDocumento.value = ""; // Limpia el valor del campo
+        DOM.errorAficiones.style.display = "none";
+        return true;
     }
-});
-DOM.tituloInput.addEventListener('input', () => updateCharCount(DOM.tituloInput, 'titulo-count'));
-DOM.descripcionInput.addEventListener('input', () => updateCharCount(DOM.descripcionInput, 'descripcion-count'));
+}
 
-
-DOM.showPass.addEventListener('change', function () 
+// Validación de DNI/NIE
+function validateDniNie() 
 {
-    if (this.checked) {
-        DOM.inputPassword.type = 'text';
-    } else {
-        DOM.inputPassword.type = 'password';
+    const inputDniNie = DOM.dniNie;
+    const errorElement = document.getElementById("error-dni-nie");
+    const numero = inputDniNie.value.trim();
+
+    if (!verificarDniNie(numero)) 
+    {
+        errorElement.style.display = "block";
+        return false;
+    } else 
+    {
+        errorElement.style.display = "none";
+        return true;
     }
-});
-
-function updateCharCount(input, counterId) 
-{
-    const counter = document.getElementById(counterId);
-    const maxLength = input.getAttribute('maxlength');
-    const currentLength = input.value.length;
-
-    counter.textContent = `${currentLength} / ${maxLength}`;
 }
 
 function verificarDniNie(numero) 
@@ -67,10 +114,13 @@ function verificarDniNie(numero)
         const letraInicial = numero[0];
         const numeroSinLetra = numero.slice(1, -1);
         let numeroCompleto;
-        if (letraInicial === "X") numeroCompleto = `0${numeroSinLetra}`;
-        if (letraInicial === "Y") numeroCompleto = `1${numeroSinLetra}`;
-        if (letraInicial === "Z") numeroCompleto = `2${numeroSinLetra}`;
-        
+        if (letraInicial === "X") numeroCompleto = `0$
+        {numeroSinLetra}`;
+        if (letraInicial === "Y") numeroCompleto = `1$
+        {numeroSinLetra}`;
+        if (letraInicial === "Z") numeroCompleto = `2$
+        {numeroSinLetra}`;
+
         // Calcula la letra correcta
         const letraCorrecta = letras[parseInt(numeroCompleto) % 23];
         return letraCorrecta === numero.slice(-1);
@@ -87,18 +137,3 @@ function verificarDniNie(numero)
     // No es un formato válido
     return false;
 }
-
-DOM.formId.addEventListener('submit', function (event) {
-    const inputDniNie = document.getElementById('documento');
-    const errorElement = document.getElementById('error-dni-nie');
-    const numero = inputDniNie.value.trim();
-
-    if (!verificarDniNie(numero)) {
-        // Mostrar error y prevenir envío del formulario
-        errorElement.style.display = 'block';
-        event.preventDefault();
-    } else {
-        // Ocultar mensaje de error si es válido
-        errorElement.style.display = 'none';
-    }
-});
