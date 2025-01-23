@@ -11,6 +11,7 @@ const DOM =
     messagesList: document.getElementById("messagesList"),
     aficiones: document.querySelectorAll("input[name='Aficiones']"),
     errorAficiones: document.getElementById("error-aficiones"),
+    inputs: document.querySelectorAll('input, select'),
 };
 
 document.addEventListener("DOMContentLoaded", () => 
@@ -68,6 +69,37 @@ document.addEventListener("DOMContentLoaded", () =>
             }
         });
     });
+
+    DOM.inputs.forEach(input => {
+        input.addEventListener('input', validateField);
+      });
+    
+      function validateField(event) {
+        const field = event.target;
+        const errorSpan = document.getElementById(`error-${field.id.toLowerCase()}`);
+        let errorMessage = '';
+
+        if(field.id === 'DniNie') {validateDniNie();}
+
+        if (!field.checkValidity()) {
+          if (field.validity.valueMissing) {
+            errorMessage = 'Este campo es obligatorio.';
+          } else if (field.validity.tooShort) {
+            errorMessage = `Debe tener al menos ${field.minLength} caracteres.`;
+          } else if (field.validity.tooLong) {
+            errorMessage = `No debe exceder de ${field.maxLength} caracteres.`;
+          } else if (field.validity.patternMismatch) {
+            errorMessage = 'Formato inválido.';
+          }
+        }
+
+        if (errorMessage) {
+          errorSpan.textContent = errorMessage;
+          errorSpan.style.display = 'block';
+        } else {
+          errorSpan.style.display = 'none';
+        }
+      }
 });
 
 // Validación de aficiones

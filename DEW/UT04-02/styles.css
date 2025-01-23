@@ -41,7 +41,38 @@ button {
     cursor: pointer;
     border-radius: 4px;
 }
+/* 
+.form-group label {
+    font-weight: bold;
+}
 
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 95%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-group input[type="checkbox"],
+.form-group input[type="radio"] {
+    width: auto;
+}
+
+.form-group input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.form-group input[type="submit"]:hover {
+    background-color: #0056b3;
+} 
+/* label{margin-bottom: 1em; margin-top:0.5em;} */
 button:hover {
     background-color: #0056b3;
 }
@@ -57,4 +88,12 @@ input:invalid, textarea:invalid, select:invalid {
 
 input:valid, textarea:valid, select:valid {
     border-color: black;
+}
+form {
+    width: 100%;
+}
+.error-message
+{
+    color: red;
+    font-size: 0.8em;
 }
